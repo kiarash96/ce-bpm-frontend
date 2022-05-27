@@ -1,0 +1,18 @@
+.section {
+  padding: 1rem 0;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #8f8f9d;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  row-gap: 0.2rem;
+}
+
+.title {
+  margin-bottom: 0.5rem;
+  font-size: larger;
+}

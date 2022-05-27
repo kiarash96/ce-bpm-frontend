@@ -9,7 +9,7 @@ import TaskForm from "./components/TaskForm";
 import Alert from "./components/Alert";
 
 const FormLoader = () => {
-  const { formId } = useParams();
+  const { formId, sectionId } = useParams();
   const [{ taskId, callbackUrl }] = useSearchParams();
 
   const form = createMemo(() => ({
@@ -25,7 +25,7 @@ const FormLoader = () => {
         taskId={taskId}
         onComplete={() => window.location.replace(callbackUrl)}
       >
-        <Dynamic component={form()} />
+        <Dynamic component={form()} section={sectionId} />
       </TaskForm>
     </Show>
   );
@@ -35,7 +35,7 @@ const App = () => (
   <Router>
     <main>
       <Routes>
-        <Route path="/*formId" element={<FormLoader />} />
+        <Route path="/:formId/:sectionId" element={<FormLoader />} />
       </Routes>
     </main>
   </Router>

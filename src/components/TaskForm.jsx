@@ -7,7 +7,6 @@ import { endpoint } from "../utils/api";
 
 import Alert from "./Alert";
 
-
 const FormContext = createContext();
 
 function useForm() {
@@ -18,17 +17,11 @@ function TaskForm(props) {
   const [local, others] = splitProps(props, ["taskId", "defaultValues", "children"]);
 
   const [loading, setLoading] = createSignal(true);
-  const [alertVisible, setAlertVisible] = createSignal(false);
   const [alert, setAlert] = createSignal({message: "", type: null});
 
   const [values, setValues] = createStore(local.defaultValues || {});
 
-  const submit = async (e) => {
-    e.preventDefault();
-
-    setAlert({message: "در حال ارسال اطلاعات...", type: "info"});
-    setAlertVisible(true);
-
+  const handleSubmit = async () => {
     const data = Object.entries(values).reduce(
       (obj, [key, value]) => ({ [key]: { value: value }, ...obj }),
       {}
@@ -36,11 +29,10 @@ function TaskForm(props) {
 
     try {
       await axios.post(endpoint + `/task/${local.taskId}/complete`, data);
-      setAlert({message: "ارسال فرم با موفقیت انجام شد.", type: "success"});
       props.onComplete && props.onComplete();
     }
     catch (error) {
-      setAlert({message: error.message, type: "error"});
+      throw error;
     }
   }
 
@@ -59,22 +51,13 @@ function TaskForm(props) {
   });
 
   return (
-    <FormContext.Provider value={[values, setValues]}>
-      <form
-        dir="rtl"
-        {...others}
+    <FormContext.Provider value={[values, setValues, handleSubmit]}>
+      <Show
+        when={!loading()}
+        fallback={<Alert {...alert()} />}
       >
-        <Show
-          when={!loading()}
-          fallback={<Alert {...alert()} />}
-        >
-          {local.children}
-          <div>
-            <Show when={alertVisible()}><Alert {...alert()} /></Show>
-            <button type="submit" onClick={submit}>ارسال</button>
-          </div>
-        </Show>
-      </form>
+        {local.children}
+      </Show>
     </FormContext.Provider>
   );
 }
