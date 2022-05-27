@@ -1,12 +1,18 @@
+import { splitProps } from "solid-js";
 import styles from "./Alert.module.scss";
 
-const Alert = (props) => (
-  <div
-    class={styles.common}
-    classList={{ [styles[props.type]]: true }}
-  >
-    {props.message}
-  </div>
-);
+function Alert(props) {
+  const [local, others] = splitProps(props, ["message", "type"]);
+
+  return (
+    <div
+      class={styles.common}
+      classList={{ [styles[props.type]]: true }}
+      {...others}
+    >
+      {props.message}
+    </div>
+  );
+}
 
 export default Alert;
