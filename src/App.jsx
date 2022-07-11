@@ -8,11 +8,14 @@ import "./App.scss";
 import TaskForm from "./components/TaskForm";
 import Alert from "./components/Alert";
 
+import MscSupervisorSelectionForm from "./forms/MscSupervisorSelectionForm";
+
 const FormLoader = () => {
   const { formId, sectionId } = useParams();
   const [{ taskId, callbackUrl }] = useSearchParams();
 
   const form = createMemo(() => ({
+    "msc-supervisor-selection" : MscSupervisorSelectionForm,
     // TODO: Insert forms here
   }[formId]));
 
