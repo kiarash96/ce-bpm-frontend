@@ -36,6 +36,7 @@ const App = () => (
     <main>
       <Routes>
         <Route path="/:formId/:sectionId" element={<FormLoader />} />
+        <Route path="*" component={FormLoader()} />
       </Routes>
     </main>
   </Router>
