@@ -35,8 +35,8 @@ const App = () => (
   <Router>
     <main>
       <Routes>
-        <Route path="/:formId/:sectionId" element={<FormLoader />} />
-        <Route path="*" component={FormLoader()} />
+        <Route path={import.meta.env.BASE_URL + "/:formId/:sectionId"} element={<FormLoader />} />
+        <Route path="/*" element={<FormLoader />} />
       </Routes>
     </main>
   </Router>
