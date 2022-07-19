@@ -28,7 +28,7 @@ function TaskForm(props) {
     );
 
     try {
-      await axios.post(endpoint + `/task/${local.taskId}/complete`, data);
+      await axios.post(endpoint + `/task/${local.taskId}/complete`, {variables: data});
       props.onComplete && props.onComplete();
     }
     catch (error) {
